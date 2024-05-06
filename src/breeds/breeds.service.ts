@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBreedDto } from './dto/create-breed.dto';
-import { UpdateBreedDto } from './dto/update-breed.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Breed } from './entities/breed.entity';
 import { Repository } from 'typeorm';
