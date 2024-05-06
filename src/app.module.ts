@@ -3,6 +3,7 @@ import { CatsModule } from './cats/cats.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from "@nestjs/config";
 import { BreedsModule } from './breeds/breeds.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [CatsModule , ConfigModule.forRoot(), // carga variables de entorno
@@ -15,7 +16,7 @@ import { BreedsModule } from './breeds/breeds.module';
     database:process.env.MYSQL_DATABASE,
     autoLoadEntities: true,
     synchronize: true,
-  }), BreedsModule],
+  }), BreedsModule, UsersModule],
   controllers: [],
   providers: [],
 })
