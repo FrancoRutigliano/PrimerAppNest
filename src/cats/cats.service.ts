@@ -31,7 +31,7 @@ export class CatsService {
     // crear en entidad cat el nuevo registro
     const cat = this.catRepository.create([{
       name: createCatDto.name,
-      age: createCatDto.age.toString(),
+      age: createCatDto.age,
     }]);    
     //guardar el regitro dentro de la base de datos
     return await this.catRepository.save(cat);
@@ -46,7 +46,29 @@ export class CatsService {
   }
 
   async update(id: number, updateCatDto: UpdateCatDto) {
-    return await this.catRepository.update(id, updateCatDto);
+    const cat = await this.catRepository.findOneBy({ id });
+
+    if (!cat) {
+      throw new BadRequestException('Cat not found');
+    }
+
+    let breed;
+
+    if (updateCatDto.breed) {
+      breed  = await this.breedsRepository.findOneBy({
+        name: updateCatDto.breed,
+      });
+      
+      if (!breed) {
+        throw new BadRequestException('breed not found');
+      }
+    }
+
+    return await this.catRepository.save({
+      ...cat,
+      ...updateCatDto,
+      breed,
+    });
   }
 
   async remove(id: number) {

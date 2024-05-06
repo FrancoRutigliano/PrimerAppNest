@@ -10,7 +10,7 @@ export class Cat {
     name: string;
 
     @Column()
-    age: string;
+    age: number;
 
     @ManyToOne(() => Breed, (breed) => breed.id, {
         eager: true, // para que traiga las razasal hacer un findOne
