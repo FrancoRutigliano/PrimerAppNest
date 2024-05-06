@@ -42,7 +42,13 @@ export class CatsService {
   }
 
   async findOne(id: number) {
-    return await this.catRepository.findOneBy({ id });
+    const cat = await this.catRepository.findOneBy({ id });
+    
+    if (!cat) {
+      throw new BadRequestException(`Cat with id #${id} is not found`)
+    }
+
+    return cat
   }
 
   async update(id: number, updateCatDto: UpdateCatDto) {
