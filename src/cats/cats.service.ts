@@ -14,8 +14,8 @@ export class CatsService {
     private catRepository: Repository<Cat>,
   ) {}
 
-  create(createCatDto: CreateCatDto) {
-    return 'This action adds a new cat';
+  async create(createCatDto: CreateCatDto) {
+    return 'this action adds a new cat';
   }
 
   findAll() {
@@ -27,10 +27,10 @@ export class CatsService {
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+    return `this action updates a #${id} cat`;
   }
 
   remove(id: number) {
-    return this.catRepository.delete({ id })
+    return this.catRepository.delete(id);
   }
 }
