@@ -5,3 +5,6 @@ up:
 down:
 	@echo "Stoping containers"
 	docker-compose down
+
+runDev:
+	yarn start:dev

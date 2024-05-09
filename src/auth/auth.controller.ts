@@ -9,12 +9,12 @@ export class AuthController {
 
     @Post("register")
     register(@Body() registerDto: RegisterDto) {
-        return this.authService.register(registerDto)
+        return this.authService.register(registerDto);
     }
 
     @Post("login")
     login(@Body() loginDto: LoginDto) {
-        return 'login de usuario exitoso';
+        return this.authService.login(loginDto);
     }
 
 }
