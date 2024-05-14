@@ -3,10 +3,14 @@ import * as bcryptjs from "bcryptjs";
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dto/login.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UsersService) {}
+    constructor(
+        private readonly userService: UsersService,
+        private readonly jwtService: JwtService,
+    ) {}
 
     async register({name, email, password}: CreateUserDto ) {
         const user = this.userService.findOneByEmail(email);
@@ -46,8 +50,13 @@ export class AuthService {
         } catch (error) {
             throw new InternalServerErrorException('Error comparing passwords');
         }
+
+        const payload = { email: (await user).email };
+
+        const token  = await this.jwtService.signAsync(payload);
         
         return {
+            token: token,
             email: (await user).email,
             message: `Hey ${(await user).name} you´re welcome`
         }
