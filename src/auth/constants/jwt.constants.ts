@@ -1,4 +1,3 @@
-
- export const jwtConstants = {
-     secret: "hola no pasar a produ esto xd",
-};
+export const jwtConstants = {
+    secret: "no utilizar en producción",
+  };
