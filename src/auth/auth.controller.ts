@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
+import { ChangePasswordDto} from './dto/changePassword.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,8 +22,17 @@ export class AuthController {
 
     @Get('profile')
     @UseGuards(AuthGuard)
-    async profile(@Request() req) {
+    profile(@Request() req) {
         const user = req.user
        return this.authService.profileInfo(user)
     }
+
+    @Post('change-password')
+    @UseGuards(AuthGuard)
+    changePassword(@Body() changePasswordDto: ChangePasswordDto, @Request() req) {
+        const user = req.user.email
+
+        return this.authService.changePassword(changePasswordDto, user)
+    }
+
 }

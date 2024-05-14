@@ -4,6 +4,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { ChangePasswordDto } from './dto/changePassword.dto';
 
 @Injectable()
 export class AuthService {
@@ -71,5 +72,35 @@ export class AuthService {
             message:`Hey ${(await payload).name} this is your profile`,
             email: (await payload).email,
         }
+    }
+
+    async changePassword({oldPassword, newPassword, confirmPassword}:ChangePasswordDto, userEmail: any) {
+        const user = this.userService.findOneByEmail(userEmail)
+
+        try {
+            const comparePassword = await bcryptjs.compare(oldPassword, (await user).password)
+            if (!comparePassword) {
+                throw new UnauthorizedException('invalid old password, try again')
+            }
+        } catch(error) {
+            throw new InternalServerErrorException('Error comparing passwords');
+        }
+
+        if (newPassword !== confirmPassword) {
+            throw new UnauthorizedException('passwords doesnt agree')
+        }
+
+        const hashedPassword = await bcryptjs.hash(newPassword, 10);
+
+        (await user).password = hashedPassword;
+        
+        // guardar en db
+        this.userService.updateUser(userEmail, { password: hashedPassword })
+        
+
+        return {
+            message: `password succesfully changed`
+        }
+
     }
 }
