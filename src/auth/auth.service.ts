@@ -62,4 +62,14 @@ export class AuthService {
         }
     }
 
+
+    async profileInfo(user: any) {
+        
+        const payload = this.userService.findOneByEmail(user.email)
+
+        return {
+            message:`Hey ${(await payload).name} this is your profile`,
+            email: (await payload).email,
+        }
+    }
 }
