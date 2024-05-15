@@ -59,6 +59,7 @@ export class AuthService {
         return {
             token: token,
             email: (await user).email,
+            rol: (await user).rol,
             message: `Hey ${(await user).name} you´re welcome`
         }
     }
