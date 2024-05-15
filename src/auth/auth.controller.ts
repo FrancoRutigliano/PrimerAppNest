@@ -7,6 +7,7 @@ import { ChangePasswordDto} from './dto/changePassword.dto';
 import { RequestWithUser } from './interface/requestUserInterface';
 import { Roles } from './decorators/roles.decorator';
 import { RolesGuard } from './guard/roles.guard';
+import { Role } from './enums/role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -24,13 +25,13 @@ export class AuthController {
     }
 
     @Get('profile')
-    @Roles('user')
+    @Roles(Role.USER)
     @UseGuards(AuthGuard, RolesGuard)
     profile(
         @Req() req: RequestWithUser
     ) {
-        const user = req.user
-       return this.authService.profileInfo(user)
+        
+       return this.authService.profileInfo(req.user)
     }
 
     @Post('change-password')
