@@ -52,7 +52,7 @@ export class AuthService {
             throw new InternalServerErrorException('Error comparing passwords');
         }
 
-        const payload = { email: (await user).email };
+        const payload = { email: (await user).email, role: (await user).rol };
 
         const token  = await this.jwtService.signAsync(payload);
         
