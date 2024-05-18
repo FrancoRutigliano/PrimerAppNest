@@ -52,14 +52,14 @@ export class AuthService {
             throw new InternalServerErrorException('Error comparing passwords');
         }
 
-        const payload = { email: (await user).email, role: (await user).rol };
+        const payload = { email: (await user).email, role: (await user).role };
 
         const token  = await this.jwtService.signAsync(payload);
         
         return {
             token: token,
             email: (await user).email,
-            rol: (await user).rol,
+            rol: (await user).role,
             message: `Hey ${(await user).name} you´re welcome`
         }
     }
@@ -67,12 +67,9 @@ export class AuthService {
 
     async profileInfo(user: any) {
         
-        const payload = this.userService.findOneByEmail(user.email)
+        return await  this.userService.findOneByEmail(user.email)
 
-        return {
-            message:`Hey ${(await payload).name} this is your profile`,
-            email: (await payload).email,
-        }
+        
     }
 
     async changePassword({oldPassword, newPassword, confirmPassword}:ChangePasswordDto, userEmail: any) {
