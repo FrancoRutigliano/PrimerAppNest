@@ -12,7 +12,7 @@ export class User {
     email: string;
 
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, select: false }) // select lo que hace es no devolver la password en el payload para no exponer info delicada
     password: string;
 
     @Column({ default: "user" })
