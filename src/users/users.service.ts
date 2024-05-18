@@ -20,6 +20,13 @@ export class UsersService {
   }
 
 
+  async findOneByEmailWithPassword(email: string) {
+    return await this.usersRepository.findOne({
+      where: { email },
+      select: ['id', 'name', 'email', 'password', 'role']
+    })
+  }
+
   async updateUser(email: string, updateData: Partial<User>): Promise<void> {
     const user = await this.usersRepository.findOneBy({ email });
     if (!user) {

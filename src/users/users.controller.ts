@@ -14,7 +14,7 @@ export class UsersController {
 
   @Get()
   findOneById(@Body() email: string) {
-    return this.usersService.findOneByEmail(email);
+    return this.usersService.findOneByEmailWithPassword(email);
   }
 
   @Patch('email')
