@@ -1,11 +1,11 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
 import { ChangePasswordDto} from './dto/changePassword.dto';
 import { RequestWithUser } from './interface/requestUserInterface';
-import { Role } from './enums/role.enum';
+import { Role } from '../common/enums/role.enum';
 import { Auth } from './decorators/auth.decorator';
 
 @Controller('auth')
