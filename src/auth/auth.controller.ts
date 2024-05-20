@@ -4,9 +4,10 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
 import { ChangePasswordDto} from './dto/changePassword.dto';
-import { RequestWithUser } from './interface/requestUserInterface';
 import { Role } from '../common/enums/role.enum';
 import { Auth } from './decorators/auth.decorator';
+import { ActiveUser } from 'src/common/decorators/active-user.decorator';
+import { UserActiveInterface } from 'src/common/interface/user-active.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -35,8 +36,9 @@ export class AuthController {
 
     @Get('profile')
     @Auth(Role.USER)
-    profile(@Request() req: RequestWithUser){
-        return  req.user 
+    profile(@ActiveUser() user: UserActiveInterface, ){
+        console.log(user);
+        return  this.authService.profileInfo(user); 
     }
 
     @Post('change-password')
