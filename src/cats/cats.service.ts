@@ -6,6 +6,7 @@ import { Cat } from './entities/cat.entity';
 import { Repository } from 'typeorm';
 import { Breed } from 'src/breeds/entities/breed.entity';
 import { Result } from 'src/common/result/result';
+import { UserActiveInterface } from 'src/common/interface/user-active.interface';
 
 @Injectable()
 export class CatsService {
@@ -19,25 +20,15 @@ export class CatsService {
     private breedsRepository: Repository<Breed>,
   ) {}
 
-  async create(createCatDto: CreateCatDto) {
-    const breed = await this.breedsRepository.findOneBy({
-      name: createCatDto.breed,
+  async create(createCatDto: CreateCatDto, user: UserActiveInterface) {
+    const breed = await this.validateBreed(createCatDto.breed);
+
+    return await this.catRepository.save({
+      ...createCatDto,
+      breed: breed,
+      userEmail: user.email,
     });
-
-    // si este name esta vacio devolvemos un error
-    if (!breed) {
-      throw new BadRequestException('Breed not found');
-    }
-
-    // crear en entidad cat el nuevo registro
-    const cat = this.catRepository.create([{
-      name: createCatDto.name,
-      age: createCatDto.age,
-    }]);    
-    //guardar el regitro dentro de la base de datos
-    return await this.catRepository.save(cat);
-  }
-
+}
   async findAll(): Promise<Result<Cat[]>> {
     const cats = await this.catRepository.find();
     
@@ -87,4 +78,14 @@ export class CatsService {
   async remove(id: number) {
     return await this.catRepository.softDelete(id);
   }
+
+  private async validateBreed(breed: string): Promise<Breed> { 
+    const BreedEntity = await this.breedsRepository.findOneBy({ name: breed });
+
+    if (!BreedEntity) {
+      throw new BadRequestException('Breed not found');
+    }
+
+    return BreedEntity;
+}
 }

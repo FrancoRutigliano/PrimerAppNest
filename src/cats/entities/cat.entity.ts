@@ -1,23 +1,32 @@
-import { Breed } from "src/breeds/entities/breed.entity";
-import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "../../users/entities/user.entity";
+import { Breed } from "../../breeds/entities/breed.entity";
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne} from "typeorm";
 
-@Entity() // decorador que define entidad
+@Entity()
 export class Cat {
-    @PrimaryGeneratedColumn()
-    id: number;
+  // @PrimaryGeneratedColumn()
+  @Column({ primary: true, generated: true })
+  id: number;
 
-    @Column()    
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    age: number;
+  @Column()
+  age: number;
 
-    @ManyToOne(() => Breed, (breed) => breed.id, {
-        eager: true, // para que traiga las razasal hacer un findOne
-    }) 
-    breed: string;
+  @DeleteDateColumn()
+  deletedAt: Date;
 
-    // almacena fecha y hora de la eliminacion --> cuando se llama a metodo delete. No se elimina de la db
-    @DeleteDateColumn()
-    deleteDateColumn: Date;
+  @ManyToOne(() => Breed, (breed) => breed.id, {
+    eager: true, // para que traiga las raza al hacer un findOne
+  })
+  breed: Breed;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userEmail', referencedColumnName: 'email',  })
+  user: User;
+
+  @Column()
+  userEmail: string;
+
 }
