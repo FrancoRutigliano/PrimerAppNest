@@ -2,10 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException } from
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { Role } from 'src/common/enums/role.enum';
-import { ActiveUser } from 'src/common/decorators/active-user.decorator';
-import { UserActiveInterface } from 'src/common/interface/user-active.interface';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { Role } from '../common/enums/role.enum';
+import { ActiveUser } from '../common/decorators/active-user.decorator';
+import { UserActiveInterface } from '../common/interface/user-active.interface';
 
 @Auth(Role.USER)
 @Controller('cats')

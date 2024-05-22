@@ -4,9 +4,9 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cat } from './entities/cat.entity';
 import { Repository } from 'typeorm';
-import { Breed } from 'src/breeds/entities/breed.entity';
-import { Result } from 'src/common/result/result';
-import { UserActiveInterface } from 'src/common/interface/user-active.interface';
+import { Breed } from '../breeds/entities/breed.entity';
+import { Result } from '../common/result/result';
+import { UserActiveInterface } from '../common/interface/user-active.interface';
 
 @Injectable()
 export class CatsService {
