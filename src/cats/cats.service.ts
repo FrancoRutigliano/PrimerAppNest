@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Cat } from './entities/cat.entity';
 import { Repository } from 'typeorm';
 import { Breed } from 'src/breeds/entities/breed.entity';
+import { Result } from 'src/common/result/result';
 
 @Injectable()
 export class CatsService {
@@ -37,8 +38,14 @@ export class CatsService {
     return await this.catRepository.save(cat);
   }
 
-  async findAll() {
-    return await this.catRepository.find();
+  async findAll(): Promise<Result<Cat[]>> {
+    const cats = await this.catRepository.find();
+    
+    if (cats.length === 0) {
+      return Result.failure<Cat[]>('Cats not found');
+    }
+    
+    return Result.success(cats);
   }
 
   async findOne(id: number) {
