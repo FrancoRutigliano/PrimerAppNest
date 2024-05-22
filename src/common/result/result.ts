@@ -1,12 +1,11 @@
-// Para crear la clase result utilizamos un generic <T>
 export class Result<T> {
-    // constructor tomando tres parametros 
-    // isSuccess: boolean --> indica si el resultado es exitoso o no
-    // value?: T --> si el resultado es exitoso, el valor que devolvera | opcional
-    // error?: string --> si el resultado es fallido, el error que devolvera | opcional 
+    // Constructor toma tres parámetros:
+    // isSuccess: boolean - indica si el resultado es exitoso o no
+    // value?: T - si el resultado es exitoso, el valor que devolverá (opcional)
+    // error?: string - si el resultado es fallido, el error que devolverá (opcional)
     constructor(public isSuccess: boolean, public readonly value?: T ,public error?: string) {}
 
-    static succes<U>(value: U): Result<U> {
+    static success<U>(value: U): Result<U> {
         return new Result<U>(true, value, undefined);
     }
 
